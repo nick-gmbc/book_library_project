@@ -21,4 +21,5 @@ from lib import views as lib_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lib_views.search, name='search'),
+    path('lib/', lib_views.search, name='search'),
 ]
