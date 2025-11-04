@@ -23,3 +23,24 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title  # or any field you prefer
+    
+
+class Borrower(models.Model):
+    borrower_code = models.CharField(max_length=10, unique=True)
+    given_name = models.CharField(max_length=25, unique=False)
+    family_name = models.CharField(max_length=20, unique=False)
+    books_out = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.borrower_code + " " + self.given_name + " " + self.family_name
+    
+
+class Load(models.Model):
+    loan_number = models.AutoField(primary_key=True)
+    book_code = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="book_borrowed")
+    borrower_code = models.ForeignKey(Borrower, on_delete=models.CASCADE, related_name="person_borrowing")
+    borrowed_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.loan_number) + " " + self.borrower_code.family_name + " " + self.book_code.title + " " + self.borrowed_on.isoformat()
+    
